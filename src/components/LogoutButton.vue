@@ -1,14 +1,18 @@
 <template>
     <div class="logout-button">
         <router-link to="/">
-            <button type="submit">Logout?</button>
+            <button @click="logoutClick()" type="submit">Logout?</button>
         </router-link>
     </div>
 </template>
 
 <script>
 export default {
-    
+    methods: {
+    logoutClick() {
+      localStorage.removeItem("loggedUser");
+    }
+  }
 }
 </script>
 

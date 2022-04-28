@@ -5,7 +5,7 @@
 <script>
 
 export default {
-  name: 'App, HomePage, UserPage, AdminPage, PatiensPage',
+  name: 'App, HomePage, UserPage, AdminPage, PatiensPage, ProfilePage ',
   
 }
 </script>

@@ -3,6 +3,7 @@
 <HomePatiens></HomePatiens>
 <HomeUsers></HomeUsers>
 <HomeAdmin></HomeAdmin>
+<HomeProfile></HomeProfile>
 <LogoutButton></LogoutButton>
 </template>
 
@@ -12,8 +13,7 @@ import HomePatiens from './HomePatiens.vue'
 import HomeUsers from './HomeUsers.vue'
 import HomeAdmin from './HomeAdmin.vue'
 import LogoutButton from './LogoutButton.vue'
-
-
+import HomeProfile from './HomeProfile.vue'
 
 
 
@@ -24,7 +24,8 @@ export default {
         HomePatiens,
         HomeUsers,
         HomeAdmin,
-        LogoutButton
+        LogoutButton,
+        HomeProfile
     }
 }
 </script>

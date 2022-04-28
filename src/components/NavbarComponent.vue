@@ -11,22 +11,42 @@
       </li>
     </router-link>
     <router-link to="/Patiens">
-      <li><a class="submenu patiensMenu">Patients</a></li>
+      <li><a v-show="isAdmin" class="submenu patiensMenu">Patients</a></li>
     </router-link>
     <router-link to="/Users">
       <li><a class="submenu cusersMenu">Users</a></li>
     </router-link>
-    <router-link to="/Admins">
+    <router-link v-show="isAdmin" to="/Admins">
       <li><a class="submenu adminMenu">Admin</a></li>
     </router-link>
-    <router-link to="/">
-      <li style="float: right"><a class="submenu logout">Logout</a></li>
+    <router-link to="/profile">
+      <li><a class="submenu logout" >Pofile</a></li>
     </router-link>
+    <router-link to="/">
+      <li style="float: right"><a class="submenu logout" @click="logoutClick()" >Logout {{user.username}}</a></li>
+    </router-link>
+    
   </ul>
 </template>
 
 <script>
+
+
+let loggedUser= JSON.parse(localStorage.getItem('logedUser'));
+
 export default {
+  data() {
+    return {
+      user: loggedUser,
+      isAdmin: loggedUser.role == 'admin'
+    }
+  
+  },
+  methods: {
+    logoutClick() {
+      localStorage.removeItem("loggedUser");
+    }
+  }
 }
 </script>
 

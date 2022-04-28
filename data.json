@@ -1,0 +1,82 @@
+{
+  "users": 
+    [
+      {
+        "user_id": 1,
+        "name": "Leon Campean",
+        "username": "cleon",
+        "role": "admin",
+        "password":"adminUser"
+      },
+     {
+        "user_id": 2,
+        "name": "Leon Partner",
+        "username": "partner",
+        "role": "partner",
+        "password":"partenerUser"
+      },
+      {
+        "user_id": 3,
+        "name": "Leon Cient",
+        "username": "client",
+        "role": "client",
+        "password":"clientUser"
+      }
+    ],
+  "patients": [
+    {
+      "patient_id": 1,
+      "name": "Ed Spencer",
+      "hospital": "Casa Sperantei",
+      "date_birth": "2000-03-27",
+      "adress": "London, 12 West Stream",
+      "phone_number":  "001 323 1232",
+      "age": 20
+    },
+    {
+      "patient_id": 2,
+      "name": "Camereon Diaz",
+      "hospital": "Regina Maria",
+      "date_birth": "1987-03-27",
+      "adress": "Madrid, 53 Plaza Espana",
+      "phone_number":  "021 454 0563",
+      "age": 38
+    },
+     {
+      "patient_id": 3,
+      "name": "Jonney Deep",
+      "hospital": "Militar",
+      "date_birth": "1985-09-1",
+      "adress": "Wien, 10 Principal museum",
+      "phone_number":  "023 493 5032",
+      "age": 35
+    },
+     {
+      "patient_id": 4,
+      "name": "Tom Hanks",
+      "hospital": "Medicover",
+      "date_birth": "1964-09-06",
+      "adress": "Chicago, 22 Old Morris",
+      "phone_number":  "040 389 8540",
+      "age": 55
+    }
+],
+  "hospitals": [
+    {
+      "hospital_id": 1,
+      "hospital_name": "Casa Sperantei"
+    },
+    {
+      "hospital_id": 2,
+      "hospital_name": "Regina Maria"
+    },
+     {
+      "hospital_id": 3,
+      "hospital_name": "Militar"
+    },
+     {
+      "hospital_id": 4,
+      "hospital_name": "Medicover"
+    }
+]
+}

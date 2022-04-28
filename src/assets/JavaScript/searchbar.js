@@ -2,7 +2,7 @@ export function searchBar() {
 
   let searchInput = document.getElementById("search-box");
   let filter = searchInput.value.toUpperCase();
-  let table = document.getElementById("patientsTable");
+  let table = document.getElementById("Patients_body_table");
   let tr = table.getElementsByTagName("tr");
 
   console.log('am intrat in functie');
@@ -24,7 +24,7 @@ export function searchBar2() {
 
     let searchInput = document.getElementById("search-box2");
     let filter = searchInput.value.toUpperCase();
-    let table = document.getElementById("patientsTable");
+    let table = document.getElementById("Patients_body_table");
     let tr = table.getElementsByTagName("tr");
   
     for (let i = 0; i < tr.length; i++) {

@@ -6,6 +6,7 @@ import HomePage from './components/HomePage.vue';
 import PatiensPage from './components/PatiensPage.vue';
 import UserPage from './components/UserPage.vue';
 import AdminPage from './components/AdminPage.vue';
+import ProfilePage from './components/ProfilePage.vue';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,7 +22,8 @@ const routes = [
     {
         path: '/laitek',
         beforeEnter() {location.href = 'https://laitek.com'}
-    }
+    },
+    { path:'/profile', component: ProfilePage}
 
 ]
 
@@ -35,3 +37,6 @@ const router = createRouter({
 const app = createApp(App);
 app.use(router)
 app.mount('#app')
+app.config.globalProperties.dbApi = 'http://localhost:3000'
+app.config.globalProperties.logedUser = {'Leon':'xx'}
+

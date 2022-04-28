@@ -14,8 +14,6 @@ import PopupPatiens from './PopupPatiens.vue'
 
 
 
-
-
 export default {
     name:"PatiensPage",
     components:{

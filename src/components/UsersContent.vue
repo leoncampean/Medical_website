@@ -1,7 +1,7 @@
 
 <template>
   <div class="container">
-    <h3>Use the form bellow to add Patients!</h3>
+    <h3>Use the form bellow to add User!</h3>
     <form class="user-form">
       <div class="form-group">
         <label for="name">Name:</label>
@@ -25,79 +25,21 @@
       <button type="button" @click="clearForm" class="button2">Clear</button>
       <br />
     </form>
-    <div class="search-input">
-      <input
-        type="text"
-        @keyup="searchByName"
-        class="form-control"
-        id="search-box"
-        placeholder="Search by name..."
-      />
-      <input
-        type="text"
-        @keyup="searchByHospital"
-        class="form-control2"
-        id="search-box2"
-        placeholder="Search by hospital..."
-      />
-    </div>
     <table id="patientsTable" class="table-patiens">
       <thead class="table-header">
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Name</th>
-          <th scope="col">Hospital</th>
-          <th scope="col">Actions</th>
+          <th scope="col">Username</th>
+          <th scope="col">Role</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th>1</th>
-          <td>Campean Leon</td>
-          <td>Cluj-Napoca</td>
-          <td>
-            <Popup> </Popup>
-          </td>
-        </tr>
-        <tr>
-          <th>2</th>
-          <td>Grigorescu Vlad</td>
-          <td>Timisoara</td>
-          <td>
-            <Popup> </Popup>
-          </td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>Popescu Paul</td>
-          <td>Cluj-Napoca</td>
-          <td>
-            <Popup> </Popup>
-          </td>
-        </tr>
-        <tr>
-          <th>4</th>
-          <td>Danciulescu Petru</td>
-          <td>Cluj-Napoca</td>
-          <td>
-            <Popup> </Popup>
-          </td>
-        </tr>
-        <tr>
-          <th>5</th>
-          <td>Paun Cirstian</td>
-          <td>Timisoara</td>
-          <td>
-            <Popup> </Popup>
-          </td>
-        </tr>
-        <tr v-for="(entry, i) in sortedList" :key="i">
-          <th scope="row">{{ ++i + 5 }}</th>
-          <td>{{ entry.name }}</td>
-          <td>{{ entry.hospital }}</td>
-          <td>
-            <Popup> </Popup>
-          </td>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.name }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.role }}</td>
+          <td>Edit</td>
         </tr>
       </tbody>
     </table>
@@ -105,25 +47,17 @@
 </template>
 
 <script>
-// import { ref } from 'vue';
-import Popup from "./Popup.vue";
-import {searchBar} from "../assets/JavaScript/searchbar.js";
-import {searchBar2} from "../assets/JavaScript/searchbar.js";
-
+import axios from "axios";
 
 export default {
-    mounted() {
-    searchBar();
-    searchBar2();
-  },
   setup() {
-    return {
-      Popup,
-    };
+    // return {
+    //   Popup,
+    // };
   },
-  components: {
-    Popup,
-  },
+  // components: {
+  //   Popup,
+  // },
   name: "Leaderboard",
   data: () => ({
     name: "",
@@ -132,7 +66,22 @@ export default {
     search: "",
     blogs: [],
     del: "X",
+    users: [],
   }),
+
+  mounted() {
+    let url = this.dbApi + "/users";
+    axios
+      .get(url)
+      .then((response) => {
+        this.users = response.data;
+        console.log("pacienti = ", this.users);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
   computed: {
     sortedList: function () {
       return this.allHospitals.slice().sort(function (a, b) {
@@ -154,18 +103,11 @@ export default {
       this.name = "";
       this.hospital = "";
     },
-    searchByName() {
-        searchBar();
-    },
-    searchByHospital() {
-      searchBar2();
-    }
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 .container {
   text-align: center;
   color: white;
@@ -223,24 +165,23 @@ label {
 }
 
 .form-control {
-    width: 35%;
-    margin: auto;
-    font-size: 16px;
-    border: 2px solid black;
-    border-radius: 20px;
-    height: 50px;
-    margin-bottom: 10px;
+  width: 35%;
+  margin: auto;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 20px;
+  height: 50px;
+  margin-bottom: 10px;
 }
 
 .form-control2 {
-    width: 35%;
-    margin: auto;
-    font-size: 16px;
-    border: 2px solid black;
-    border-radius: 20px;
-    height: 50px;
+  width: 35%;
+  margin: auto;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 20px;
+  height: 50px;
 }
-
 
 .user-form {
   background: rgb(168, 164, 164);
