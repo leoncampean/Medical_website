@@ -9,22 +9,22 @@
           id="search-box"
           placeholder="Search by name..."
         />
-        <input
-          type="text"
-          @keyup="searchByHospital"
-          class="form-control2"
-          id="search-box2"
-          placeholder="Search by hospital..."
-        />
       </div>
-      <table>
+      <h4>Use this dropdown to filter by hospital</h4>
+      <select name="selectHospital" id="hospitalDropdown" v-model="patient" @input="searchDropdown">
+        <option value="" disabled selected>--select hospital--</option>
+        <option v-for="option in options" :key="option">{{option}}</option>
+        <option selected="selected">All</option>
+      </select>
+
+      <table id="patiens-table">
         <thead>
           <tr>
-            <th>{{ Header.Nume }}</th>
-            <th>{{ Header.Spital }}</th>
-            <th>{{ Header.Data_Nasterii }}</th>
-            <th>{{ Header.Varsta }}</th>
-            <th>{{ Header.Details }}</th>
+            <th col-index="1">{{ Header.Nume }}</th>
+            <th col-index="2">{{ Header.Spital }}</th>
+            <th col-index="3">{{ Header.Data_Nasterii }}</th>
+            <th col-index="4">{{ Header.Varsta }}</th>
+            <th col-index="5">{{ Header.Details }}</th>
           </tr>
         </thead>
         <tbody id="Patients_body_table">
@@ -44,9 +44,8 @@
 <script>
 import axios from "axios";
 import { searchBar } from "../assets/JavaScript/searchbar.js";
-import { searchBar2 } from "../assets/JavaScript/searchbar.js";
-import ContactPopup from './ContactPopup.vue'
-
+import { filterTable } from "../assets/JavaScript/searchbar.js";
+import ContactPopup from "./ContactPopup.vue";
 
 export default {
   data() {
@@ -60,6 +59,7 @@ export default {
       },
       patients: [],
       api: this.dbApi,
+      selectedOption: null
     };
   },
   mounted() {
@@ -68,12 +68,18 @@ export default {
       .get(url)
       .then((response) => {
         this.patients = response.data;
-        // console.log("pacienti = ", this.patients);
-        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+  },
+  computed:{
+    options(){
+      return Object.keys(this.patients).map(k => {
+        let o = this.patients[k]
+        return `${o.hospital}`
+      })
+    }
   },
   setup() {
     return {
@@ -87,11 +93,11 @@ export default {
     searchByName() {
       searchBar();
     },
-    searchByHospital() {
-      searchBar2();
-    },
-  },
-};
+    searchDropdown() {
+      filterTable();
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -143,5 +149,14 @@ th {
   border: 2px solid black;
   border-radius: 20px;
   height: 50px;
+}
+
+select {
+  width: 200px;
+  height: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 </style>

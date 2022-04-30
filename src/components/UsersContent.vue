@@ -31,15 +31,17 @@
           <th scope="col">Name</th>
           <th scope="col">Username</th>
           <th scope="col">Role</th>
-          <th>Action</th>
+          <th v-show="isAdmin">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="(user, index) in users" :key="index">
           <td>{{ user.name }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.role }}</td>
-          <td>Edit</td>
+          <td v-show="isAdmin">
+            <EditPopup></EditPopup>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -48,8 +50,18 @@
 
 <script>
 import axios from "axios";
+import EditPopup from './EditPopup.vue'
+
+let loggedUser= JSON.parse(localStorage.getItem('logedUser'));
+
+
 
 export default {
+
+  components: {
+    EditPopup
+  },
+
   setup() {
     // return {
     //   Popup,
@@ -60,13 +72,15 @@ export default {
   // },
   name: "Leaderboard",
   data: () => ({
-    name: "",
+    // name: "",
     hospital: "",
     allHospitals: [],
     search: "",
     blogs: [],
     del: "X",
     users: [],
+    user: loggedUser,
+    isAdmin: loggedUser.role == 'admin'
   }),
 
   mounted() {
