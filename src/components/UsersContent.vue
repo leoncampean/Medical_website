@@ -40,7 +40,33 @@
           <td>{{ user.username }}</td>
           <td>{{ user.role }}</td>
           <td v-show="isAdmin">
-            <EditPopup></EditPopup>
+            <div class="root">
+              <button
+                @click="
+                  isOpen = true;
+                  editModal($event)
+                "
+                :data-id="user.user_id"
+              >    
+                Details
+              </button>
+              <teleport to="body">
+                <div class="modal" v-if="isOpen">
+                  <div>
+                    <h3>{{ patDetails.name }}</h3>
+                    <ul id="example-1">
+                      <li>
+                        {{ patDetails.adress }}
+                      </li>
+                      <li>
+                        {{ patDetails.phone_number }}
+                      </li>
+                    </ul>
+                    <button @click="isOpen = false">Close</button>
+                  </div>
+                </div>
+              </teleport>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -48,28 +74,22 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-import EditPopup from './EditPopup.vue'
+import { ref } from "vue";
 
-let loggedUser= JSON.parse(localStorage.getItem('logedUser'));
-
-
+let loggedUser = JSON.parse(localStorage.getItem("logedUser"));
 
 export default {
-
-  components: {
-    EditPopup
-  },
-
   setup() {
-    // return {
+    // components: {
     //   Popup,
-    // };
+    // },
+    const isOpen = ref(false);
+
+    return { isOpen };
   },
-  // components: {
-  //   Popup,
-  // },
   name: "Leaderboard",
   data: () => ({
     // name: "",
@@ -80,7 +100,12 @@ export default {
     del: "X",
     users: [],
     user: loggedUser,
-    isAdmin: loggedUser.role == 'admin'
+    isAdmin: loggedUser.role == "admin",
+    patDetails: {
+      name: "patient not found!",
+      adress: "not exist",
+      phone_number: "unknoun",
+    },
   }),
 
   mounted() {
@@ -91,6 +116,22 @@ export default {
         this.users = response.data;
         console.log("pacienti = ", this.users);
         console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    let buttonValue = 1;
+
+    axios
+      .get(url)
+      .then((response) => {
+        let dataPatient = response.data;
+        dataPatient.forEach((patient) => {
+          if (buttonValue == patient.patient_id) {
+            this.patDetails = patient;
+          }
+        });
+        console.log("pacientul are datele ", this.patDetails);
       })
       .catch(function (error) {
         console.log(error);
@@ -117,6 +158,10 @@ export default {
       this.name = "";
       this.hospital = "";
     },
+    editModal: function(event){
+      var id = event.target.getAttribute('data-id');
+      console.log('data-id este: ',id);
+    }
   },
 };
 </script>
@@ -210,5 +255,37 @@ label {
   border: 3px solid black;
   font-size: 18px;
   box-shadow: 1px 2px whitesmoke;
+}
+
+button {
+  width: 80px;
+  height: 50px;
+  border-radius: 20px;
+  border: 2px solid black;
+  box-shadow: 2px 3px gray;
+}
+
+.root {
+  position: relative;
+}
+
+.modal {
+  position: fixed;
+  margin-top: 10%;
+  margin-left: 25%;
+  background: #2c3e50;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid black;
+  border-radius: 30px;
+}
+
+.modal > div {
+  background: whitesmoke;
+  padding: 50px;
+  border-radius: 10px;
 }
 </style>

@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     let url = this.dbApi + "/patients";
-    let buttonValue = 10;
+    let buttonValue = 1;
     axios
       .get(url)
       .then((response) => {
@@ -51,7 +51,7 @@ export default {
             this.patDetails = patient;
           }
         });
-        // console.log('pacientul are datele ', this.patDetails);
+        console.log('pacientul are datele ', this.patDetails);
       })
       .catch(function (error) {
         console.log(error);

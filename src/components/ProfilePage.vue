@@ -63,6 +63,10 @@
           v-model="userProfile.confirmPassword"
           class="input-patiens2"
         />
+        <label for="Varsta">Varsta</label>
+        <input
+        type="date" value="2018-07-22"
+        min="2000-01-01" max="2018-12-14">
       </div>
     </form>
 </template>

@@ -11,9 +11,14 @@
         />
       </div>
       <h4>Use this dropdown to filter by hospital</h4>
-      <select name="selectHospital" id="hospitalDropdown" v-model="patient" @input="searchDropdown">
+      <select
+        name="selectHospital"
+        id="hospitalDropdown"
+        v-model="patient"
+        @input="searchDropdown"
+      >
         <option value="" disabled selected>--select hospital--</option>
-        <option v-for="option in options" :key="option">{{option}}</option>
+        <option v-for="option in options" :key="option">{{ option }}</option>
         <option selected="selected">All</option>
       </select>
 
@@ -33,7 +38,32 @@
             <td>{{ patient.hospital }}</td>
             <td>{{ patient.date_birth }}</td>
             <td>{{ patient.age }}</td>
-            <td><ContactPopup></ContactPopup></td>
+            <td>
+              <div class="root">
+                <button @click="
+                  isOpen = true;
+                  contactModal($event)
+                "
+                :data-id="patient.patient_id">
+                Details</button>
+                <teleport to="body">
+                  <div class="modal" v-if="isOpen">
+                    <div>
+                      <h3>{{ patDetails.name }}</h3>
+                      <ul id="example-1">
+                        <li>
+                          {{ patDetails.adress }}
+                        </li>
+                        <li>
+                          {{ patDetails.phone_number }}
+                        </li>
+                      </ul>
+                      <button @click="isOpen = false">Close</button>
+                    </div>
+                  </div>
+                </teleport>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -45,7 +75,7 @@
 import axios from "axios";
 import { searchBar } from "../assets/JavaScript/searchbar.js";
 import { filterTable } from "../assets/JavaScript/searchbar.js";
-import ContactPopup from "./ContactPopup.vue";
+import { ref } from "vue";
 
 export default {
   data() {
@@ -59,11 +89,16 @@ export default {
       },
       patients: [],
       api: this.dbApi,
-      selectedOption: null
+
+      patDetails: {
+        name: "patient not found!",
+        adress: "not exist",
+        phone_number: "unknoun",
+      },
     };
   },
   mounted() {
-    let url = this.api + "/patients";
+     let url = this.api + "/patients";
     axios
       .get(url)
       .then((response) => {
@@ -72,32 +107,50 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-  },
-  computed:{
-    options(){
-      return Object.keys(this.patients).map(k => {
-        let o = this.patients[k]
-        return `${o.hospital}`
+    let buttonValue = this;
+
+    axios
+      .get(url)
+      .then((response) => {
+        let dataPatient = response.data;
+        dataPatient.forEach((patient) => {
+          if (buttonValue == patient.patient_id) {
+            this.patDetails = patient;
+          }
+        });
+        console.log("pacientul are datele ", this.patDetails);
       })
-    }
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+  computed: {
+    options() {
+      return Object.keys(this.patients).map((k) => {
+        let o = this.patients[k];
+        return `${o.hospital}`;
+      });
+    },
   },
   setup() {
-    return {
-      ContactPopup,
-    };
+    const isOpen = ref(false);
+
+    return { isOpen };
   },
-  components: {
-    ContactPopup,
-  },
+
   methods: {
     searchByName() {
       searchBar();
     },
     searchDropdown() {
       filterTable();
+    },
+    contactModal: function(event){
+      var id = event.target.getAttribute('data-id');
+      console.log('data-id este: ',id);
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -158,5 +211,37 @@ select {
   font-weight: bold;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+
+button {
+  width: 80px;
+  height: 50px;
+  border-radius: 20px;
+  border: 2px solid black;
+  box-shadow: 2px 3px gray;
+}
+
+.root {
+  position: relative;
+}
+
+.modal {
+  position: fixed;
+  margin-top: 10%;
+  margin-left: 25%;
+  background: #2c3e50;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid black;
+  border-radius: 30px;
+}
+
+.modal > div {
+  background: whitesmoke;
+  padding: 50px;
+  border-radius: 10px;
 }
 </style>
