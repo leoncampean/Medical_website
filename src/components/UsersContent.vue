@@ -13,13 +13,25 @@
         />
       </div>
       <div class="form-group">
-        <label for="hospital">Hospital:</label>
+        <label for="username">Username:</label>
         <input
           type="text"
-          placeholder="Cluj-Napoca"
-          v-model="hospital"
+          placeholder="cleon"
+          v-model="username"
           class="input-patiens2"
         />
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+       <select
+        name="selectHospital"
+        id="hospitalDropdown"
+        v-model="role"
+        @input="searchDropdown"
+      >
+        <option value="" disabled selected>--select role--</option>
+        <option v-for="option in options" :key="option">{{ option }}</option>
+      </select>
       </div>
       <button type="button" @click="onSubmit" class="button">Submit</button>
       <button type="button" @click="clearForm" class="button2">Clear</button>
@@ -41,31 +53,8 @@
           <td>{{ user.role }}</td>
           <td v-show="isAdmin">
             <div class="root">
-              <button
-                @click="
-                  isOpen = true;
-                  editModal($event)
-                "
-                :data-id="user.user_id"
-              >    
-                Details
-              </button>
-              <teleport to="body">
-                <div class="modal" v-if="isOpen">
-                  <div>
-                    <h3>{{ patDetails.name }}</h3>
-                    <ul id="example-1">
-                      <li>
-                        {{ patDetails.adress }}
-                      </li>
-                      <li>
-                        {{ patDetails.phone_number }}
-                      </li>
-                    </ul>
-                    <button @click="isOpen = false">Close</button>
-                  </div>
-                </div>
-              </teleport>
+              <EditPopup></EditPopup>
+              <button @click="deleteUser">Delete</button>
             </div>
           </td>
         </tr>
@@ -78,14 +67,18 @@
 <script>
 import axios from "axios";
 import { ref } from "vue";
+import EditPopup from "./EditPopup.vue";
+import { deleteRow2 } from "../assets/JavaScript/delete.js";
+
 
 let loggedUser = JSON.parse(localStorage.getItem("logedUser"));
 
 export default {
+  components: {
+      EditPopup,
+    },
   setup() {
-    // components: {
-    //   Popup,
-    // },
+    
     const isOpen = ref(false);
 
     return { isOpen };
@@ -148,19 +141,29 @@ export default {
         return blog.title.match(this.search);
       });
     },
+    options() {
+      return Object.keys(this.users).map((k) => {
+        let o = this.users[k];
+        return `${o.role}`;
+      });
+    },
   },
   methods: {
     onSubmit() {
-      this.allHospitals.push({ name: this.name, hospital: this.hospital });
+      this.users.push({ name: this.name, username: this.username, role: this.role });
       this.clearForm();
     },
     clearForm() {
       this.name = "";
-      this.hospital = "";
+      this.username = "";
+      this.role = "";
     },
     editModal: function(event){
       var id = event.target.getAttribute('data-id');
       console.log('data-id este: ',id);
+    },
+    deleteUser(){
+      deleteRow2(this);
     }
   },
 };

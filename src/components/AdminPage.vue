@@ -112,46 +112,6 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th>1</th>
-          <td>Campean</td>
-          <td>Leon</td>
-          <td>22</td>
-          <td>12005</td>
-          <td>
-            <button @click="deleteAdmin" type="submit">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <th>2</th>
-          <td>Frim</td>
-          <td>Paul</td>
-          <td>14</td>
-          <td>2068</td>
-          <td>
-            <button @click="deleteAdmin" type="submit">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>Georgescu</td>
-          <td>Ana</td>
-          <td>30</td>
-          <td>1090</td>
-          <td>
-            <button @click="deleteAdmin" type="submit">Delete</button>
-          </td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>Georgescu</td>
-          <td>Ana</td>
-          <td>30</td>
-          <td>1090</td>
-          <td>
-            <button @click="deleteAdmin" type="submit">Delete</button>
-          </td>
-        </tr>
         <tr v-for="(entry, i) in sortedList" :key="i">
           <th scope="row">{{ ++i + 3 }}</th>
           <td>{{ entry.name1 }}</td>
@@ -236,7 +196,7 @@ export default {
       } else {
         this.tasks.push({
           name: this.task,
-          status: "todo",
+          status: "to-do",
         });
       }
       this.task = "";

@@ -107,7 +107,7 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-    let buttonValue = this;
+    let buttonValue = 1;
 
     axios
       .get(url)
