@@ -9,10 +9,6 @@ import NavbarComponent from './NavbarComponent.vue'
 
 
 
-
-
-
-
 export default {
     name:"UsersPage",
     components:{

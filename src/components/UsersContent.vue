@@ -85,12 +85,6 @@ export default {
   },
   name: "Leaderboard",
   data: () => ({
-    // name: "",
-    hospital: "",
-    allHospitals: [],
-    search: "",
-    blogs: [],
-    del: "X",
     users: [],
     user: loggedUser,
     isAdmin: loggedUser.role == "admin",
@@ -131,16 +125,6 @@ export default {
       });
   },
   computed: {
-    sortedList: function () {
-      return this.allHospitals.slice().sort(function (a, b) {
-        return b.hospital - a.hospital;
-      });
-    },
-    filtered() {
-      return this.blogs.filter((blog) => {
-        return blog.title.match(this.search);
-      });
-    },
     options() {
       return Object.keys(this.users).map((k) => {
         let o = this.users[k];

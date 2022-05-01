@@ -38,5 +38,5 @@ const app = createApp(App);
 app.use(router)
 app.mount('#app')
 app.config.globalProperties.dbApi = 'http://localhost:3000'
-app.config.globalProperties.logedUser = {'Leon':'xx'}
+
 
