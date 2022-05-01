@@ -148,6 +148,8 @@ export default {
     contactModal: function(event){
       var id = event.target.getAttribute('data-id');
       console.log('data-id este: ',id);
+      //Am reusit sa aflu id ul pacientului in urma apasarii butonului, mai trebuia sa aloc valoarea variabilei buttonValue de mai sus dar nu am reusit..
+      //Aceeasi logica am vrut sa o aplic si pentru butonul de edit pentru users
     }
   },
 };
