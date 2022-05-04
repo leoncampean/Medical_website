@@ -8,12 +8,13 @@
 </template>
 
 <script>
-let loggedUser = empty,
-    role = object.isEmpty(loggedUser) ?"":loggedUser.role;
+let loggedUser = JSON.parse(localStorage.getItem("logedUser") || 0),
+    role = loggedUser.role == "admin";
+
 export default {
   data() {
     return {
-      isAdmin: role
+      isAdmin: role,
     };
   },
 };
