@@ -8,7 +8,7 @@
 </template>
 
 <script>
-let loggedUser = JSON.parse(localStorage.getItem("logedUser")),
+let loggedUser = JSON.parse(localStorage.getItem("logedUser") || 0),
     role = loggedUser.role == "admin";
 
 export default {
